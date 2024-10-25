@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Promcoser.DOMAIN.Core.DTOs;
 using Promcoser.DOMAIN.Core.Entities;
 using Promcoser.DOMAIN.Core.Interfaces;
 
@@ -58,8 +59,26 @@ namespace Promcoser.API.Controllers
             bool result = await _userRepository.Delete(id);
             if (!result)
                 return BadRequest();
-
             return Ok(id);
         }
+        [HttpPost("SignUp")]
+        public async Task<IActionResult> SignUp([FromBody] UserRequestAuthDTO UserRequestAuthDTO)
+        {
+            var result = await _userRepository.SignUp(UserRequestAuthDTO);
+            if (!result) return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn([FromBody] UserAuthDTO UserAuthDTO)
+        {
+            if(UserAuthDTO.Email == "" || UserAuthDTO.Password == "") return BadRequest();
+            var result = await _userRepository.SignIn(UserAuthDTO.Email, UserAuthDTO.Password);
+            if (result == null) return NotFound();
+
+            return Ok(result);
+        }
+
     }
 }

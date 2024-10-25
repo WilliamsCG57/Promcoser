@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Promcoser.DOMAIN.Core.DTOs;
 using Promcoser.DOMAIN.Core.Entities;
 using Promcoser.DOMAIN.Core.Interfaces;
 using Promcoser.DOMAIN.Data;
@@ -60,5 +61,21 @@ namespace Promcoser.DOMAIN.Infrastructure.Repositories
             int countRows = await _context.SaveChangesAsync();
             return countRows > 0;
         }
+
+        public async Task<Usuarios> SignIn(string email, string pwd)
+        {
+            return await _context
+                .Usuarios
+                .Where(u => u.Email == email && u.Password == pwd)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> SignUp(Usuarios user)
+        {
+            await _context.Usuarios .AddAsync(user);
+            int rows = await _context.SaveChangesAsync();
+            return rows > 0;
+        }
+
     }
 }

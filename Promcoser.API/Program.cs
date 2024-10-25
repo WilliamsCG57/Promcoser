@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Promcoser.DOMAIN.Core.Interfaces;
+using Promcoser.DOMAIN.Core.Services;
 using Promcoser.DOMAIN.Data;
 using Promcoser.DOMAIN.Infrastructure.Repositories;
 
@@ -16,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-
+builder.Services.AddTransient<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
