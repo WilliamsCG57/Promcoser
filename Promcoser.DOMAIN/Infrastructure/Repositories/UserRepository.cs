@@ -72,7 +72,7 @@ namespace Promcoser.DOMAIN.Infrastructure.Repositories
 
         public async Task<bool> SignUp(Usuarios user)
         {
-            await _context.Usuarios .AddAsync(user);
+            await _context.Usuarios.AddAsync(user);
             int rows = await _context.SaveChangesAsync();
             return rows > 0;
         }

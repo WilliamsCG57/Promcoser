@@ -11,6 +11,7 @@ namespace Promcoser.DOMAIN.Core.Interfaces
         Task Insert(Usuarios usuario);
         Task<bool> Update(Usuarios usuario);
         Task<bool> SignUp(UserRequestAuthDTO usuarioDTO);
-        Task<UserResponseAuthDTO> SignIn(string email, string password);
+        //Task<UserResponseAuthDTO> SignIn(string email, string password);
+        Task<UserResponseAuthDTO> SignIn(string username, string password);
     }
 }
