@@ -32,7 +32,7 @@ namespace PromcoserDOMAIN.Infrastructure.Shared
 
             var claims = new[] {
                 new Claim(ClaimTypes.Name , personal.Apellido),
-                new Claim(ClaimTypes.Email , personal.Usuario),
+                new Claim(ClaimTypes.Email , personal.CorreoElectronico),
                 new Claim(ClaimTypes.DateOfBirth , personal.FechaNacimiento.ToString()),
                 //new Claim(ClaimTypes.Role , personal.IdRol== "A" ? "Admin" : "User"),
                 new Claim("UserId" , personal.IdPersonal.ToString()),

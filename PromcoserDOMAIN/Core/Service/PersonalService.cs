@@ -31,7 +31,6 @@ namespace PromcoserDOMAIN.Core.Service
             var personalDTO = new PersonalResponseAuthDTO()
             {
                 IdPersonal = user.IdPersonal,
-                Usuario = user.Usuario,
                 Nombre = user.Nombre,
                 Apellido = user.Apellido,
                 FechaNacimiento = user.FechaNacimiento,

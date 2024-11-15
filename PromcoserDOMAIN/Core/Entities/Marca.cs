@@ -9,5 +9,7 @@ public partial class Marca
 
     public string NombreMarca { get; set; } = null!;
 
+    public bool Estado { get; set; }
+
     public virtual ICollection<Maquinaria> Maquinaria { get; set; } = new List<Maquinaria>();
 }

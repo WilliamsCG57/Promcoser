@@ -24,7 +24,7 @@ namespace PromcoserDOMAIN.Infrastructure.Repositories
         {
             return await _dbContext
                     .Personal
-                    .Where(u => u.Usuario == email && u.Contrasena == pwd)
+                    .Where(u => u.CorreoElectronico == email && u.Contrasena == pwd)
                     .FirstOrDefaultAsync();
         }
 

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PromcoserDOMAIN.Core.Entities;
 using PromcoserDOMAIN.Core.Interfaces;
+using PromcoserDOMAIN.Data;
 
 namespace PromcoserAPI.Controllers
 {
@@ -11,29 +13,30 @@ namespace PromcoserAPI.Controllers
     public class ClienteController : ControllerBase
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly PromcoserDbContext _context;
 
-        public ClienteController(IClienteRepository clienteRepository)
+        public ClienteController(IClienteRepository clienteRepository, PromcoserDbContext context)
         {
             _clienteRepository = clienteRepository;
+            _context = context;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAllActive")]
+        public async Task<IActionResult> GetAllActive()
         {
             var clientes = await _clienteRepository.GetClientes();
-            return Ok(clientes);
+            var clientesActivos = clientes.Where(c => c.Estado).ToList();
+            return Ok(clientesActivos);
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("GetAllInactive")]
+        public async Task<IActionResult> GetAllInactive()
         {
-            var cliente = await _clienteRepository.GetClienteById(id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-            return Ok(cliente);
+            var clientes = await _clienteRepository.GetClientes();
+            var clientesInactivos = clientes.Where(c => !c.Estado).ToList();
+            return Ok(clientesInactivos);
         }
+
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] Cliente cliente)
@@ -51,13 +54,40 @@ namespace PromcoserAPI.Controllers
             return Ok(cliente.IdCliente);
         }
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPut("Activate/{id}")]
+        public async Task<IActionResult> PutEstadoCliente(int id)
         {
-            bool result = await _clienteRepository.Delete(id);
-            if (!result)
-                return BadRequest();
-            return Ok(id);
+            var cliente = await _context.Cliente.FindAsync(id);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            cliente.Estado = true;
+
+            _context.Entry(cliente).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("Deactivate/{id}")]
+        public async Task<IActionResult> PutDesEstadoCliente(int id)
+        {
+            var cliente = await _context.Cliente.FindAsync(id);
+
+            if (cliente == null)
+            {
+                return NotFound();
+            }
+            cliente.Estado = false;
+
+            _context.Entry(cliente).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 

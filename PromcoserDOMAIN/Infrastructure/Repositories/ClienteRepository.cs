@@ -21,7 +21,8 @@ namespace PromcoserDOMAIN.Infrastructure.Repositories
 
         public async Task<IEnumerable<Cliente>> GetClientes()
         {
-            return await _context.Cliente.ToListAsync();
+            return await _context.Cliente   
+                         .ToListAsync();
         }
 
         public async Task<Cliente> GetClienteById(int id)

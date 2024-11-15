@@ -34,7 +34,7 @@ public partial class PromcoserDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-Q14I5L6M;Database=PromcoserDB;Integrated Security=true;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-68O5AFS\\SQLEXPRESS;Database=PromcoserDB;Integrated Security=true;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -165,15 +165,12 @@ public partial class PromcoserDbContext : DbContext
         {
             entity.HasKey(e => e.IdPersonal).HasName("PK__Personal__05A9201B75602719");
 
-            entity.HasIndex(e => e.Usuario, "UQ__Personal__E3237CF740E2A4B0").IsUnique();
+            entity.HasIndex(e => e.CorreoElectronico, "UQ__Personal__E3237CF740E2A4B0").IsUnique();
 
             entity.Property(e => e.Apellido)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Contrasena)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.CorreoElectronico)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.Direccion)
@@ -188,9 +185,6 @@ public partial class PromcoserDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Telefono)
                 .HasMaxLength(15)
-                .IsUnicode(false);
-            entity.Property(e => e.Usuario)
-                .HasMaxLength(100)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Personal)
