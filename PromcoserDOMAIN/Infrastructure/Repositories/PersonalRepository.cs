@@ -20,11 +20,11 @@ namespace PromcoserDOMAIN.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Personal> SignIn(string email, string pwd)
+        public async Task<Personal> SignIn(string usuario, string pwd)
         {
             return await _dbContext
                     .Personal
-                    .Where(u => u.CorreoElectronico == email && u.Contrasena == pwd)
+                    .Where(u => u.Usuario == usuario && u.Contrasena == pwd)
                     .FirstOrDefaultAsync();
         }
 
@@ -33,6 +33,22 @@ namespace PromcoserDOMAIN.Infrastructure.Repositories
             await _dbContext.Personal.AddAsync(personal);
             int rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
+        }
+
+        public async Task<bool> ChangePwd(string usuario, string oldPassword, string newPassword)
+        {
+            var personal = await _dbContext.Personal
+                .FirstOrDefaultAsync(p => p.Usuario == usuario);
+
+            if (personal == null || personal.Contrasena != oldPassword)
+            {
+                return false;
+            }
+
+            personal.Contrasena = newPassword;
+            _dbContext.Personal.Update(personal);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
 
 

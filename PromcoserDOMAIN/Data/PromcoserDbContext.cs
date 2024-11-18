@@ -165,7 +165,9 @@ public partial class PromcoserDbContext : DbContext
         {
             entity.HasKey(e => e.IdPersonal).HasName("PK__Personal__05A9201B75602719");
 
-            entity.HasIndex(e => e.CorreoElectronico, "UQ__Personal__E3237CF740E2A4B0").IsUnique();
+            entity.HasIndex(e => e.Usuario, "UQ__Personal__E3237CF740E2A4B0").IsUnique();
+
+            entity.HasIndex(e => e.CorreoElectronico, "UQ__Personal__E3237CF740E2A4B1").IsUnique();
 
             entity.Property(e => e.Apellido)
                 .HasMaxLength(50)

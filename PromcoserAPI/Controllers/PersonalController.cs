@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -125,6 +126,8 @@ namespace PromcoserAPI.Controllers
                 Apellido = dto.Apellido,
                 Dni = dto.Dni,
                 Telefono = dto.Telefono,
+                Usuario = "temp_user",
+                Contrasena = "Promcoser01",
                 CorreoElectronico = dto.CorreoElectronico,
                 FechaIngreso = dto.FechaIngreso,
                 Direccion = dto.Direccion,
@@ -133,6 +136,12 @@ namespace PromcoserAPI.Controllers
             };
 
             _context.Personal.Add(entidad);
+            await _context.SaveChangesAsync();
+
+            // Generar el nombre de usuario con las primeras 4 letras del nombre, apellido y IdPersonal
+            entidad.Usuario = (entidad.Nombre.Substring(0, Math.Min(4, entidad.Nombre.Length)) + entidad.Apellido + entidad.IdPersonal).ToLower();
+
+            _context.Personal.Update(entidad);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetAllActive), new { id = entidad.IdPersonal }, entidad);
@@ -174,25 +183,29 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
-
-
-        [HttpPost("SignUp")]
-        public async Task<IActionResult> SignUp([FromBody] PersonalRequestAuthDTO personalRequestAuthDTO)
-        {
-            var result = await _personalService.SignUp(personalRequestAuthDTO);
-            if (!result) return BadRequest(result);
-
-            return Ok(result);
-        }
-
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn([FromBody] PersonalAuthDTO userAuthDTO)
         {
-            if (userAuthDTO.CorreoElectronico == "" || userAuthDTO.Contrasena == "") return BadRequest();
+            if (userAuthDTO.Usuario == "" || userAuthDTO.Contrasena == "") return BadRequest();
             //TODO: Mejorar el userService con DTO
-            var result = await _personalService.SignIn(userAuthDTO.CorreoElectronico, userAuthDTO.Contrasena);
+            var result = await _personalService.SignIn(userAuthDTO.Usuario, userAuthDTO.Contrasena);
             if (result == null) return NotFound();
             return Ok(result);
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePwd([FromBody] PersonalChangePasswordDTO request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _personalService.ChangePwd(request.Usuario, request.Contrasena, request.NewContrasena);
+            if (!result){
+                return BadRequest("Error: Contraseña actual incorrecta o usuario no encontrado.");
+            }
+
+            return Ok("Contraseña cambiada exitosamente.");
         }
 
         private bool PersonalExists(int id)

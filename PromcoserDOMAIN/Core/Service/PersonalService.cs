@@ -20,9 +20,9 @@ namespace PromcoserDOMAIN.Core.Service
             _jwtService = jwtService;
         }
 
-        public async Task<PersonalResponseAuthDTO> SignIn(string email, string password)
+        public async Task<PersonalResponseAuthDTO> SignIn(string usuario, string password)
         {
-            var user = await _personalRepository.SignIn(email, password);
+            var user = await _personalRepository.SignIn(usuario, password);
             if (user == null) return null;
 
 
@@ -36,6 +36,7 @@ namespace PromcoserDOMAIN.Core.Service
                 FechaNacimiento = user.FechaNacimiento,
                 Direccion = user.Direccion,
                 CorreoElectronico = user.CorreoElectronico,
+                Usuario = user.Usuario,
                 Token = token,
                 IsEmailSent = sendEmail
             };
@@ -53,6 +54,11 @@ namespace PromcoserDOMAIN.Core.Service
             user.FechaNacimiento = userDTO.FechaNacimiento;
             user.Estado = true;
             return await _personalRepository.SignUp(user);
+        }
+
+        public async Task<bool> ChangePwd(string usuario, string oldPassword, string newPassword)
+        {
+            return await _personalRepository.ChangePwd(usuario, oldPassword, newPassword);
         }
     }
 }

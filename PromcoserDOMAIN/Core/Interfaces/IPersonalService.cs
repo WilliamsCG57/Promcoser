@@ -6,5 +6,6 @@ namespace PromcoserDOMAIN.Core.Interfaces
     {
         Task<PersonalResponseAuthDTO> SignIn(string email, string password);
         Task<bool> SignUp(PersonalRequestAuthDTO userDTO);
+        Task<bool> ChangePwd(string usuario, string oldPassword, string newPassword);
     }
 }

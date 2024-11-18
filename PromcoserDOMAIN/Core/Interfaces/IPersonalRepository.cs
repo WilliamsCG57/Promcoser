@@ -6,5 +6,6 @@ namespace PromcoserDOMAIN.Core.Interfaces
     {
         Task<Personal> SignIn(string email, string pwd);
         Task<bool> SignUp(Personal user);
+        Task<bool> ChangePwd(string usuario, string oldPassword, string newPassword);
     }
 }

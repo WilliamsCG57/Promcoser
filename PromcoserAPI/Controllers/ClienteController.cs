@@ -21,6 +21,15 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
+        [Authorize]
+        [HttpGet("testAuth")]
+        public async Task<IActionResult> GetAllActiveAuth()
+        {
+            var clientes = await _clienteRepository.GetClientes();
+            var clientesActivos = clientes.Where(c => c.Estado).ToList();
+            return Ok(clientesActivos);
+        }
+
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {

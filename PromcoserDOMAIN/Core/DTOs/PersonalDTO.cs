@@ -53,8 +53,8 @@ namespace PromcoserDOMAIN.Core.DTOs
         public string Nombre { get; set; } = null!;
 
         public string Apellido { get; set; } = null!;
-
         public string CorreoElectronico { get; set; } = null!;
+        public string Usuario { get; set; } = null!;
         public DateOnly? FechaNacimiento { get; set; }
         public string Direccion { get; set; } = null!;
         public string? Token { get; set; }
@@ -77,11 +77,16 @@ namespace PromcoserDOMAIN.Core.DTOs
 
     public class PersonalAuthDTO
     {
-        public string CorreoElectronico { get; set; } = null!;
+        public string Usuario { get; set; } = null!;
 
         public string Contrasena { get; set; } = null!;
     }
 
-
+    public partial class PersonalRequestChangePasswordDTO
+    {
+        public int Usuario { get; set; }
+        public string Contrasena { get; set; } = null!;
+        public string NewContrasena { get; set; } = null!;
+    }
 
 }

@@ -13,7 +13,8 @@ public partial class Personal
 
     public string Apellido { get; set; } = null!;
 
-    public string? Contrasena { get; set; } = null!;
+    public string Usuario { get; set; } = null!;
+    public string Contrasena { get; set; } = null!;
 
     public string Dni { get; set; } = null!;
 
@@ -61,4 +62,12 @@ public partial class PersonalCreateDTO
     public string Direccion { get; set; } = null!;
     public DateOnly? FechaNacimiento { get; set; }
     public bool Estado { get; set; }
+}
+
+public partial class PersonalChangePasswordDTO
+{
+    public string Usuario { get; set; } = null!;
+    public string Contrasena { get; set; } = null!;
+    public string NewContrasena { get; set; } = null!;
+   
 }
