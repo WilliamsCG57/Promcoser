@@ -138,8 +138,9 @@ namespace PromcoserAPI.Controllers
             _context.Personal.Add(entidad);
             await _context.SaveChangesAsync();
 
-            // Generar el nombre de usuario con las primeras 4 letras del nombre, apellido y IdPersonal
-            entidad.Usuario = (entidad.Nombre.Substring(0, Math.Min(4, entidad.Nombre.Length)) + entidad.Apellido + entidad.IdPersonal).ToLower();
+            entidad.Usuario = (entidad.Nombre.Substring(0, 1) 
+                                + entidad.Apellido.Substring(0, Math.Min(4, entidad.Apellido.Length)) //4 o menos
+                                + entidad.IdPersonal).ToLower();
 
             _context.Personal.Update(entidad);
             await _context.SaveChangesAsync();
@@ -183,11 +184,11 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
-        [HttpPost("SignIn")]
+        [HttpPost("LogIn")]
         public async Task<IActionResult> SignIn([FromBody] PersonalAuthDTO userAuthDTO)
         {
             if (userAuthDTO.Usuario == "" || userAuthDTO.Contrasena == "") return BadRequest();
-            //TODO: Mejorar el userService con DTO
+            
             var result = await _personalService.SignIn(userAuthDTO.Usuario, userAuthDTO.Contrasena);
             if (result == null) return NotFound();
             return Ok(result);

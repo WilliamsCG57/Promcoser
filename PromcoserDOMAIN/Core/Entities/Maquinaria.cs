@@ -30,7 +30,6 @@ public partial class Maquinaria
 
 public partial class MaquinariaDTO
 {
-    public int IdMaquinaria { get; set; }
 
     public int IdMarca { get; set; }
 
