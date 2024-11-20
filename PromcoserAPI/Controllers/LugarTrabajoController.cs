@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -28,6 +30,7 @@ namespace PromcoserAPI.Controllers
             return Ok(lugarTrabajoActivos);
         }
 
+        [Authorize]
         [HttpGet("GetAllInactive")]
         public async Task<IActionResult> GetAllInactive()
         {
@@ -35,6 +38,7 @@ namespace PromcoserAPI.Controllers
             return Ok(lugarTrabajoActivos);
         }
 
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> PutLugarTrabajo(LugarTrabajo lugarTrabajo)
         {
@@ -58,6 +62,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPost("Create")]
         public async Task<ActionResult<LugarTrabajo>> PostLugarTrabajo(LugarTrabajo lugarTrabajo)
         {
@@ -67,6 +72,7 @@ namespace PromcoserAPI.Controllers
             return CreatedAtAction(nameof(GetAllActive), new { id = lugarTrabajo.IdLugarTrabajo }, lugarTrabajo);
         }
 
+        [Authorize]
         [HttpPut("Activate/{id}")]
         public async Task<IActionResult> PutActEstadoLugarTrabajo(int id)
         {
@@ -85,6 +91,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("Deactivate/{id}")]
         public async Task<IActionResult> PutDesEstadoLugarTrabajo(int id)
         {

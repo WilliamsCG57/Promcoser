@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpGet("GetAllActive/{idParteDiario}")]
         public async Task<IActionResult> GetAllActive(int idParteDiario)
         {
@@ -42,6 +44,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
+        [Authorize]
         [HttpGet("GetAllInactive")]
         public async Task<IActionResult> GetAllInactive()
         {
@@ -63,6 +66,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesInactivas);
         }
 
+        [Authorize]
         [HttpPut("Activate/{id}")]
         public async Task<IActionResult> PutActEstadoEntidad(int id)
         {
@@ -81,6 +85,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> PutEntidad(DetalleParteDiarioUpdateDTO entidadDTO)
         {
@@ -111,7 +116,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
-
+        [Authorize]
         [HttpPost("Create")]
         public async Task<ActionResult<Maquinaria>> PostEntidad([FromBody] DetalleParteDiarioDTO dto)
         {
@@ -131,6 +136,7 @@ namespace PromcoserAPI.Controllers
             return CreatedAtAction(nameof(GetAllActive), new { id = entidad.IdDetalleParteDiario }, entidad);
         }
 
+        [Authorize]
         [HttpPut("Deactivate/{id}")]
         public async Task<IActionResult> PutDesEstadoEntidad(int id)
         {

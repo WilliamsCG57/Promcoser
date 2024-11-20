@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,38 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
+        [Authorize]
+        [HttpGet("GetAllActive/{idPersonal}")]
+        public async Task<IActionResult> GetAllActive(int idPersonal)
+        {
+            var entidadesActivas = await _context.ParteDiario
+                .Where(r => r.Estado && r.IdPersonalNavigation.IdPersonal == idPersonal)
+                .Include(p => p.IdLugarTrabajoNavigation)
+                .Include(p => p.IdMaquinariaNavigation)
+                .Include(p => p.IdPersonalNavigation)
+                .Include(p => p.IdClienteNavigation)
+                .Select(p => new
+                {
+                    p.IdParteDiario,
+                    p.IdMaquinariaNavigation.Placa,
+                    personal = p.IdPersonalNavigation.Nombre + " " + p.IdPersonalNavigation.Apellido,
+                    p.IdLugarTrabajoNavigation.Descripcion,
+                    p.IdClienteNavigation.RazonSocial,
+                    p.Serie,
+                    p.Firmas,
+                    p.Fecha,
+                    p.HorometroInicio,
+                    p.HorometroFinal,
+                    p.CantidadPetroleo,
+                    p.CantidadAceite,
+                    p.Estado
+                })
+                .ToListAsync();
+
+            return Ok(entidadesActivas);
+        }
+
+        [Authorize]
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -51,6 +84,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
+        [Authorize]
         [HttpGet("GetAllInactive")]
         public async Task<IActionResult> GetAllInactive()
         {
@@ -79,8 +113,9 @@ namespace PromcoserAPI.Controllers
                 .ToListAsync();
 
             return Ok(entidadesInactivas);
-        }  
+        }
 
+        [Authorize]
         [HttpPost("Create")]
         public async Task<ActionResult<ParteDiario>> PostEntidad([FromBody] ParteDiarioDTO dto)
         {
@@ -107,6 +142,7 @@ namespace PromcoserAPI.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> PutEntidad(ParteDiarioUpdateDTO entidadDTO)
         {
@@ -143,6 +179,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("Activate/{id}")]
         public async Task<IActionResult> PutActEstadoEntidad(int id)
         {
@@ -161,6 +198,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("Deactivate/{id}")]
         public async Task<IActionResult> PutDesEstadoEntidad(int id)
         {

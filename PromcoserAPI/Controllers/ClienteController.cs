@@ -22,14 +22,6 @@ namespace PromcoserAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("testAuth")]
-        public async Task<IActionResult> GetAllActiveAuth()
-        {
-            var clientes = await _clienteRepository.GetClientes();
-            var clientesActivos = clientes.Where(c => c.Estado).ToList();
-            return Ok(clientesActivos);
-        }
-
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -38,6 +30,7 @@ namespace PromcoserAPI.Controllers
             return Ok(clientesActivos);
         }
 
+        [Authorize]
         [HttpGet("GetAllInactive")]
         public async Task<IActionResult> GetAllInactive()
         {
@@ -46,7 +39,7 @@ namespace PromcoserAPI.Controllers
             return Ok(clientesInactivos);
         }
 
-
+        [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] Cliente cliente)
         {
@@ -54,6 +47,7 @@ namespace PromcoserAPI.Controllers
             return Ok(cliente);
         }
 
+        [Authorize]
         [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] Cliente cliente)
         {
@@ -63,6 +57,7 @@ namespace PromcoserAPI.Controllers
             return Ok(cliente.IdCliente);
         }
 
+        [Authorize]
         [HttpPut("Activate/{id}")]
         public async Task<IActionResult> PutEstadoCliente(int id)
         {
@@ -81,6 +76,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("Deactivate/{id}")]
         public async Task<IActionResult> PutDesEstadoCliente(int id)
         {
