@@ -115,7 +115,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesInactivas);
         }
 
-        [Authorize]
+        
         [HttpPost("Create")]
         public async Task<ActionResult<ParteDiario>> PostEntidad([FromBody] ParteDiarioDTO dto)
         {
