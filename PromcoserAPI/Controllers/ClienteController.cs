@@ -21,7 +21,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
-        [Authorize]
+        
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {

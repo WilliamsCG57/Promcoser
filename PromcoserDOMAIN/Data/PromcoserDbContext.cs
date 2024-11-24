@@ -66,9 +66,6 @@ public partial class PromcoserDbContext : DbContext
         {
             entity.HasKey(e => e.IdDetalleParteDiario).HasName("PK__DetalleP__520DE46AF0746D21");
 
-            entity.Property(e => e.Ocurrencias)
-                .HasMaxLength(200)
-                .IsUnicode(false);
             entity.Property(e => e.TrabajoEfectuado)
                 .HasMaxLength(200)
                 .IsUnicode(false);

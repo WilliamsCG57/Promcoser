@@ -22,7 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
-        [Authorize]
+        
         [HttpGet("GetAllActive/{idParteDiario}")]
         public async Task<IActionResult> GetAllActive(int idParteDiario)
         {
@@ -36,7 +36,6 @@ namespace PromcoserAPI.Controllers
                     d.HoraInicio,
                     d.HoraFin,
                     d.TrabajoEfectuado,
-                    d.Ocurrencias,
                     d.Estado
                 })
                 .ToListAsync();
@@ -58,7 +57,6 @@ namespace PromcoserAPI.Controllers
                     d.HoraInicio,
                     d.HoraFin,
                     d.TrabajoEfectuado,
-                    d.Ocurrencias,
                     d.Estado
                 })
                 .ToListAsync();
@@ -101,7 +99,6 @@ namespace PromcoserAPI.Controllers
             detallePartoExistente.HoraInicio = entidadDTO.HoraInicio;
             detallePartoExistente.HoraFin = entidadDTO.HoraFin;
             detallePartoExistente.TrabajoEfectuado = entidadDTO.TrabajoEfectuado;
-            detallePartoExistente.Ocurrencias = entidadDTO.Ocurrencias;
             detallePartoExistente.Estado = entidadDTO.Estado;
 
             try
@@ -116,7 +113,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        
         [HttpPost("Create")]
         public async Task<ActionResult<Maquinaria>> PostEntidad([FromBody] DetalleParteDiarioDTO dto)
         {
@@ -126,7 +123,6 @@ namespace PromcoserAPI.Controllers
                 HoraInicio = dto.HoraInicio,
                 HoraFin = dto.HoraFin,
                 TrabajoEfectuado = dto.TrabajoEfectuado,
-                Ocurrencias = dto.Ocurrencias,
                 Estado = dto.Estado
             };
 
@@ -136,7 +132,7 @@ namespace PromcoserAPI.Controllers
             return CreatedAtAction(nameof(GetAllActive), new { id = entidad.IdDetalleParteDiario }, entidad);
         }
 
-        [Authorize]
+        
         [HttpPut("Deactivate/{id}")]
         public async Task<IActionResult> PutDesEstadoEntidad(int id)
         {

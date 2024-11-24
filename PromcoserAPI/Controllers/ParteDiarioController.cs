@@ -22,7 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
-        [Authorize]
+        
         [HttpGet("GetAllActive/{idPersonal}")]
         public async Task<IActionResult> GetAllActive(int idPersonal)
         {
@@ -53,7 +53,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-        [Authorize]
+        
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
