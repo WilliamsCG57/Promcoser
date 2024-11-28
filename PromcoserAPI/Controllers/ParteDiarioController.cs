@@ -77,6 +77,10 @@ namespace PromcoserAPI.Controllers
                     p.HorometroFinal,
                     p.CantidadPetroleo,
                     p.CantidadAceite,
+                    p.IdCliente,
+                    p.IdMaquinaria,
+                    p.IdPersonal,
+                    p.IdLugarTrabajo,
                     p.Estado
                 })
                 .ToListAsync();
