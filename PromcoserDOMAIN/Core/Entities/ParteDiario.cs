@@ -10,8 +10,7 @@ public partial class ParteDiario
     public int IdPersonal { get; set; }
     public int IdLugarTrabajo { get; set; }
     public int IdMaquinaria { get; set; }
-    public string Serie { get; set; } = null!;
-    public string Firmas { get; set; } = null!;
+    public bool Finalizado { get; set; }
     public DateOnly Fecha { get; set; }
     public decimal HorometroInicio { get; set; }
     public decimal HorometroFinal { get; set; }
@@ -31,8 +30,7 @@ public partial class ParteDiarioDTO
     public int IdPersonal { get; set; }
     public int IdLugarTrabajo { get; set; }
     public int IdMaquinaria { get; set; }
-    public string Serie { get; set; } = null!;
-    public string Firmas { get; set; } = null!;
+    public bool Finalizado { get; set; }
     public DateOnly Fecha { get; set; }
     public decimal HorometroInicio { get; set; }
     public decimal HorometroFinal { get; set; }
@@ -48,8 +46,7 @@ public partial class ParteDiarioUpdateDTO
     public int IdPersonal { get; set; }
     public int IdLugarTrabajo { get; set; }
     public int IdMaquinaria { get; set; }
-    public string Serie { get; set; } = null!;
-    public string Firmas { get; set; } = null!;
+    public bool Finalizado { get; set; }
     public DateOnly Fecha { get; set; }
     public decimal HorometroInicio { get; set; }
     public decimal HorometroFinal { get; set; }

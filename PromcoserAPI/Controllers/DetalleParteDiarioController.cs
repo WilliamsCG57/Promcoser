@@ -129,7 +129,7 @@ namespace PromcoserAPI.Controllers
             _context.DetalleParteDiario.Add(entidad);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAllActive), new { id = entidad.IdDetalleParteDiario }, entidad);
+            return CreatedAtAction(nameof(GetAllActive), new { idParteDiario = entidad.IdDetalleParteDiario }, entidad);
         }
 
         

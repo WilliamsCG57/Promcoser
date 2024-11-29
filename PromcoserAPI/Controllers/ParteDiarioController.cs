@@ -22,7 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
-        
+
         [HttpGet("GetAllActive/{idPersonal}")]
         public async Task<IActionResult> GetAllActive(int idPersonal)
         {
@@ -39,8 +39,7 @@ namespace PromcoserAPI.Controllers
                     personal = p.IdPersonalNavigation.Nombre + " " + p.IdPersonalNavigation.Apellido,
                     p.IdLugarTrabajoNavigation.Descripcion,
                     p.IdClienteNavigation.RazonSocial,
-                    p.Serie,
-                    p.Firmas,
+                    p.Finalizado,
                     p.Fecha,
                     p.HorometroInicio,
                     p.HorometroFinal,
@@ -53,7 +52,65 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-        
+        [HttpGet("GetAllActiveConfirmed/{idPersonal}")]
+        public async Task<IActionResult> GetAllActiveConfirmed(int idPersonal)
+        {
+            var entidadesActivas = await _context.ParteDiario
+                .Where(r => r.Estado && r.IdPersonalNavigation.IdPersonal == idPersonal && r.Finalizado)
+                .Include(p => p.IdLugarTrabajoNavigation)
+                .Include(p => p.IdMaquinariaNavigation)
+                .Include(p => p.IdPersonalNavigation)
+                .Include(p => p.IdClienteNavigation)
+                .Select(p => new
+                {
+                    p.IdParteDiario,
+                    p.IdMaquinariaNavigation.Placa,
+                    personal = p.IdPersonalNavigation.Nombre + " " + p.IdPersonalNavigation.Apellido,
+                    p.IdLugarTrabajoNavigation.Descripcion,
+                    p.IdClienteNavigation.RazonSocial,
+                    p.Finalizado,
+                    p.Fecha,
+                    p.HorometroInicio,
+                    p.HorometroFinal,
+                    p.CantidadPetroleo,
+                    p.CantidadAceite,
+                    p.Estado
+                })
+                .ToListAsync();
+
+            return Ok(entidadesActivas);
+        }
+
+        [HttpGet("GetAllActivePending/{idPersonal}")]
+        public async Task<IActionResult> GetAllActivePending(int idPersonal)
+        {
+            var entidadesActivas = await _context.ParteDiario
+                .Where(r => r.Estado && r.IdPersonalNavigation.IdPersonal == idPersonal && !r.Finalizado)
+                .Include(p => p.IdLugarTrabajoNavigation)
+                .Include(p => p.IdMaquinariaNavigation)
+                .Include(p => p.IdPersonalNavigation)
+                .Include(p => p.IdClienteNavigation)
+                .Select(p => new
+                {
+                    p.IdParteDiario,
+                    p.IdMaquinariaNavigation.Placa,
+                    personal = p.IdPersonalNavigation.Nombre + " " + p.IdPersonalNavigation.Apellido,
+                    p.IdLugarTrabajoNavigation.Descripcion,
+                    p.IdClienteNavigation.RazonSocial,
+                    p.Finalizado,
+                    p.Fecha,
+                    p.HorometroInicio,
+                    p.HorometroFinal,
+                    p.CantidadPetroleo,
+                    p.CantidadAceite,
+                    p.Estado
+                })
+                .ToListAsync();
+
+            return Ok(entidadesActivas);
+        }
+
+
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -70,8 +127,7 @@ namespace PromcoserAPI.Controllers
                     personal = p.IdPersonalNavigation.Nombre + " " + p.IdPersonalNavigation.Apellido,
                     p.IdLugarTrabajoNavigation.Descripcion,
                     p.IdClienteNavigation.RazonSocial,
-                    p.Serie,
-                    p.Firmas,
+                    p.Finalizado,
                     p.Fecha,
                     p.HorometroInicio,
                     p.HorometroFinal,
@@ -105,8 +161,7 @@ namespace PromcoserAPI.Controllers
                     personal = p.IdPersonalNavigation.Nombre + p.IdPersonalNavigation.Apellido,
                     p.IdLugarTrabajoNavigation.Descripcion,
                     p.IdClienteNavigation.RazonSocial,
-                    p.Serie,
-                    p.Firmas,
+                    p.Finalizado,
                     p.Fecha,
                     p.HorometroInicio,
                     p.HorometroFinal,
@@ -129,8 +184,7 @@ namespace PromcoserAPI.Controllers
                 IdPersonal = dto.IdPersonal,
                 IdLugarTrabajo = dto.IdLugarTrabajo,
                 IdMaquinaria = dto.IdMaquinaria,
-                Serie = dto.Serie,
-                Firmas = dto.Firmas,
+                Finalizado = dto.Finalizado,
                 Fecha = dto.Fecha,
                 HorometroInicio = dto.HorometroInicio,
                 HorometroFinal = dto.HorometroFinal,
@@ -158,8 +212,7 @@ namespace PromcoserAPI.Controllers
                 return NotFound();
             }
 
-            parteDiarioExistente.Serie = entidadDTO.Serie;
-            parteDiarioExistente.Firmas = entidadDTO.Firmas;
+            parteDiarioExistente.Finalizado = entidadDTO.Finalizado;
             parteDiarioExistente.Fecha = entidadDTO.Fecha;
             parteDiarioExistente.HorometroInicio = entidadDTO.HorometroInicio;
             parteDiarioExistente.HorometroFinal = entidadDTO.HorometroFinal;

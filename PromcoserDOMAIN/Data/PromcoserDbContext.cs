@@ -124,14 +124,8 @@ public partial class PromcoserDbContext : DbContext
 
             entity.Property(e => e.CantidadAceite).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.CantidadPetroleo).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Firmas)
-                .HasMaxLength(200)
-                .IsUnicode(false);
             entity.Property(e => e.HorometroFinal).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.HorometroInicio).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.Serie)
-                .HasMaxLength(20)
-                .IsUnicode(false);
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.ParteDiario)
                 .HasForeignKey(d => d.IdCliente)
