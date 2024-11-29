@@ -22,7 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
-
+        [Authorize]
         [HttpGet("GetAllActive/{idPersonal}")]
         public async Task<IActionResult> GetAllActive(int idPersonal)
         {
@@ -52,6 +52,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
+        [Authorize]
         [HttpGet("GetAllActiveConfirmed/{idPersonal}")]
         public async Task<IActionResult> GetAllActiveConfirmed(int idPersonal)
         {
@@ -81,6 +82,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
+        [Authorize]
         [HttpGet("GetAllActivePending/{idPersonal}")]
         public async Task<IActionResult> GetAllActivePending(int idPersonal)
         {
@@ -110,7 +112,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-
+        [Authorize]
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {

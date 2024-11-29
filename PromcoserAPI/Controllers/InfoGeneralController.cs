@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PromcoserDOMAIN.Data;
 
@@ -14,7 +15,8 @@ namespace PromcoserAPI.Controllers
         {
             _context = context;
         }
-
+        
+        [Authorize]
         [HttpGet("Resumen")]
         public async Task<IActionResult> GetResumen()
         {
