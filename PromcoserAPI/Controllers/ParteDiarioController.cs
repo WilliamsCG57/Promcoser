@@ -22,7 +22,7 @@ namespace PromcoserAPI.Controllers
             _context = context;
         }
 
-        [Authorize]
+        
         [HttpGet("GetAllActive/{idPersonal}")]
         public async Task<IActionResult> GetAllActive(int idPersonal)
         {
@@ -52,7 +52,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-        [Authorize]
+        
         [HttpGet("GetAllActiveConfirmed/{idPersonal}")]
         public async Task<IActionResult> GetAllActiveConfirmed(int idPersonal)
         {
@@ -82,7 +82,6 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-        [Authorize]
         [HttpGet("GetAllActivePending/{idPersonal}")]
         public async Task<IActionResult> GetAllActivePending(int idPersonal)
         {
@@ -112,7 +111,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-        [Authorize]
+       
         [HttpGet("GetAllActive")]
         public async Task<IActionResult> GetAllActive()
         {
@@ -146,7 +145,7 @@ namespace PromcoserAPI.Controllers
             return Ok(entidadesActivas);
         }
 
-        [Authorize]
+       
         [HttpGet("GetAllInactive")]
         public async Task<IActionResult> GetAllInactive()
         {
@@ -202,7 +201,7 @@ namespace PromcoserAPI.Controllers
             return Ok();
         }
 
-        [Authorize]
+       
         [HttpPut("Update")]
         public async Task<IActionResult> PutEntidad(ParteDiarioUpdateDTO entidadDTO)
         {
@@ -238,7 +237,35 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        [HttpPut("Confirm")]
+        public async Task<IActionResult> ConfirmEntidad(ParteDiarioConfirmDTO entidadDTO)
+        {
+            var parteDiarioExistente = await _context.ParteDiario
+                .FirstOrDefaultAsync(m => m.IdParteDiario == entidadDTO.IdParteDiario);
+
+            if (parteDiarioExistente == null)
+            {
+                return NotFound();
+            }
+
+            parteDiarioExistente.Finalizado = true;
+            parteDiarioExistente.HorometroFinal = entidadDTO.HorometroFinal;
+            parteDiarioExistente.CantidadPetroleo = entidadDTO.CantidadPetroleo;
+            parteDiarioExistente.CantidadAceite = entidadDTO.CantidadAceite;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
+            }
+
+            return NoContent();
+        }
+
+
         [HttpPut("Activate/{id}")]
         public async Task<IActionResult> PutActEstadoEntidad(int id)
         {
@@ -257,7 +284,7 @@ namespace PromcoserAPI.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        
         [HttpPut("Deactivate/{id}")]
         public async Task<IActionResult> PutDesEstadoEntidad(int id)
         {

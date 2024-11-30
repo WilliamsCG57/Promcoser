@@ -54,3 +54,11 @@ public partial class ParteDiarioUpdateDTO
     public decimal CantidadAceite { get; set; }
     public bool Estado { get; set; }
 }
+
+public partial class ParteDiarioConfirmDTO
+{
+    public int IdParteDiario { get; set; }
+    public decimal HorometroFinal { get; set; }
+    public decimal CantidadPetroleo { get; set; }
+    public decimal CantidadAceite { get; set; }
+}
